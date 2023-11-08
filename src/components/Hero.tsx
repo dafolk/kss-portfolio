@@ -53,7 +53,7 @@ export default function Hero() {
               "You can call me Martin.",
               (el) => el?.classList.remove("custom-type-animation-cursor"),
               () => setNameRendered(true),
-              20000,
+              10000,
               (el) => el?.classList.add("custom-type-animation-cursor"),
             ]}
             wrapper="span"
@@ -79,7 +79,7 @@ export default function Hero() {
               (el) => el?.classList.remove("custom-type-animation-cursor"),
             ]}
             wrapper="span"
-            speed={20}
+            speed={70}
             style={{
               fontSize: "1em",
               display: "inline-block",
