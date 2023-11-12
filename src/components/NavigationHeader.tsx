@@ -21,16 +21,25 @@ export default function NavigationHeader({ ColorModeContext }: HomeProps) {
   const colorMode = React.useContext(ColorModeContext);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+
+  const handleMenuClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
-  const handleClose = () => {
+
+  const handleMenuClose = () => {
     setAnchorEl(null);
   };
 
+  const handleMenuItemClick = (sectionId: string) => {
+    const section = document.getElementById(sectionId);
+
+    section && section.scrollIntoView({ behavior: "smooth" });
+    handleMenuClose();
+  };
+
   const sections = [
-    { name: "About", link: "#" },
-    { name: "Contact", link: "#" },
+    { name: "About", sectionId: "about" },
+    { name: "Contact", sectionId: "footer" },
   ];
 
   return (
@@ -65,7 +74,7 @@ export default function NavigationHeader({ ColorModeContext }: HomeProps) {
             display: { xs: "flex", md: "none" },
             color: "primary.main",
           }}
-          onClick={handleClick}
+          onClick={handleMenuClick}
         >
           <MenuIcon />
         </IconButton>
@@ -73,13 +82,18 @@ export default function NavigationHeader({ ColorModeContext }: HomeProps) {
           id="basic-menu"
           anchorEl={anchorEl}
           open={open}
-          onClose={handleClose}
+          onClose={handleMenuClose}
           MenuListProps={{
             "aria-labelledby": "basic-button",
           }}
         >
           {sections.map((item, key) => (
-            <MenuItem key={key} onClick={handleClose}>
+            <MenuItem
+              key={key}
+              onClick={() => {
+                handleMenuItemClick(item.sectionId);
+              }}
+            >
               <Typography color="primary.main">{item.name}</Typography>
             </MenuItem>
           ))}
@@ -105,7 +119,9 @@ export default function NavigationHeader({ ColorModeContext }: HomeProps) {
         >
           {sections.map((item, key) => (
             <a
-              href={item.link}
+              onClick={() => {
+                handleMenuItemClick(item.sectionId);
+              }}
               key={key}
               style={{
                 textDecoration: "none",
@@ -113,6 +129,7 @@ export default function NavigationHeader({ ColorModeContext }: HomeProps) {
                 height: "100%",
                 color:
                   theme.palette.mode === "light" ? colors.black : colors.white,
+                cursor: "pointer",
               }}
             >
               {item.name}

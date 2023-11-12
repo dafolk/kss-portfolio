@@ -52,7 +52,7 @@ export default function Footer() {
   const theme = useTheme();
 
   return (
-    <footer>
+    <footer id="footer">
       <Box
         sx={{
           color: "secondary.main",
