@@ -92,7 +92,7 @@ export default function NavigationHeader({ ColorModeContext }: HomeProps) {
             fontSize: "24px",
           }}
         >
-          LOGO
+          KSS
         </Typography>
         <Box
           sx={{
@@ -123,7 +123,7 @@ export default function NavigationHeader({ ColorModeContext }: HomeProps) {
           onClick={colorMode.toggleColorMode}
           sx={{ color: "primary.main", ml: { xs: 2, md: 10 } }}
         >
-          {theme.palette.mode === "dark" ? (
+          {theme.palette.mode === "light" ? (
             <Brightness7Icon />
           ) : (
             <Brightness4Icon />

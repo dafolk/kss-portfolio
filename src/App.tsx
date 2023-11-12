@@ -1,10 +1,6 @@
 import { createContext, useMemo, useState } from "react";
-import {
-  CssBaseline,
-  ThemeProvider,
-  createTheme,
-  useMediaQuery,
-} from "@mui/material";
+import { CssBaseline, useMediaQuery } from "@mui/material";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
 import Home from "./pages/home";
 import Layout from "./components/Layout";
 
@@ -25,45 +21,32 @@ function App() {
     []
   );
 
-  const theme = useMemo(
-    () =>
-      createTheme({
-        palette: {
-          mode,
-          primary: {
-            main: mode === "dark" ? "#DECBB7" : "#433633",
-          },
-          secondary: {
-            main: mode === "dark" ? "#433633" : "#DECBB7",
-          },
-          common: {
-            black: "#433633",
-            white: "#DECBB7",
-          },
-          background: {
-            default: mode === "dark" ? "#433633" : "#DECBB7",
-          },
-        },
-        // palette: {
-        //   primary: {
-        //     main: ,
-        //   },
-        //   secondary: {
-        //     main: "#DECBB7",
-        //   },
-        //   error: {
-        //     main: "#D90429",
-        //   },
-        //   // gray: {
-        //   //   main: "#5C5552",
-        //   // },
-        // },
-        typography: {
-          fontFamily: ['"Black Ops One"'].join(","),
-        },
-      }),
-    [mode]
-  );
+  const theme = createTheme({
+    palette: {
+      mode,
+      primary: {
+        main: mode === "dark" ? "#DECBB7" : "#433633",
+      },
+      secondary: {
+        main: mode === "dark" ? "#433633" : "#DECBB7",
+      },
+      common: {
+        black: "#433633",
+        white: "#DECBB7",
+      },
+      info: {
+        main: mode === "dark" ? "#433633" : "#DECBB7",
+
+        contrastText: mode === "dark" ? "#433633" : "#DECBB7",
+      },
+      background: {
+        default: mode === "dark" ? "#433633" : "#DECBB7",
+      },
+    },
+    typography: {
+      fontFamily: ['"Black Ops One"'].join(","),
+    },
+  });
   return (
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>

@@ -1,5 +1,6 @@
 import React from "react";
 import NavigationHeader from "./NavigationHeader";
+import Footer from "./Footer";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -11,7 +12,7 @@ export default function Layout({ children, ColorModeContext }: LayoutProps) {
     <>
       <NavigationHeader ColorModeContext={ColorModeContext} />
       {children}
-      {/* Footer goes here */}
+      <Footer />
     </>
   );
 }

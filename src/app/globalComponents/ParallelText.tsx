@@ -13,7 +13,7 @@ import { wrap } from "@motionone/utils";
 interface ParallaxProps {
   children: string;
   baseVelocity: number;
-  fontSize: number;
+  fontSize?: number;
   color: string;
 }
 
@@ -39,7 +39,7 @@ export default function ParallaxText({
    * have to replace for wrapping that works for you or dynamically
    * calculate
    */
-  const x = useTransform(baseX, (v) => `${wrap(-20, -45, v)}%`);
+  const x = useTransform(baseX, (v) => `${wrap(0, -25, v)}%`);
   const directionFactor = useRef<number>(1);
 
   useAnimationFrame((t, delta) => {
@@ -71,7 +71,7 @@ export default function ParallaxText({
     <div
       style={{
         overflow: "hidden",
-        letterSpacing: "-2px",
+        letterSpacing: "2px",
         lineHeight: 0.8,
         margin: 0,
         whiteSpace: "nowrap",

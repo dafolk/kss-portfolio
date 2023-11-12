@@ -1,5 +1,6 @@
 import { Box } from "@mui/material";
 import Hero from "../components/Hero";
+import About from "../components/About";
 
 export default function Home() {
   return (
@@ -9,11 +10,13 @@ export default function Home() {
         width: "100%",
         justifyContent: "center",
         color: "primary.main",
-        p: 0,
+        px: { xs: 2, lg: 10 },
         mt: "10vh",
+        flexDirection: "column",
       }}
     >
       <Hero />
+      <About />
     </Box>
   );
 }
