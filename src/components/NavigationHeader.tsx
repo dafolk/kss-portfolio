@@ -39,6 +39,7 @@ export default function NavigationHeader({ ColorModeContext }: HomeProps) {
 
   const sections = [
     { name: "About", sectionId: "about" },
+    { name: "Journey", sectionId: "journey" },
     { name: "Contact", sectionId: "footer" },
   ];
 
@@ -99,11 +100,15 @@ export default function NavigationHeader({ ColorModeContext }: HomeProps) {
           ))}
         </Menu>
         <Typography
+          id="kss"
           sx={{
             flexGrow: 1,
-            // display: { xs: "none", md: "flex" },
             color: "primary.main",
             fontSize: "24px",
+            cursor: "pointer",
+          }}
+          onClick={() => {
+            window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
           }}
         >
           KSS
