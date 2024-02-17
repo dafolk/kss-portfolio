@@ -38,8 +38,8 @@ export default function NavigationHeader({ ColorModeContext }: HomeProps) {
   };
 
   const sections = [
-    { name: "About", sectionId: "about" },
     { name: "Journey", sectionId: "journey" },
+    { name: "Skills", sectionId: "skills" },
     { name: "Contact", sectionId: "footer" },
   ];
 
