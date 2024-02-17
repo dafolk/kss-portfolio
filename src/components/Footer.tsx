@@ -1,16 +1,15 @@
 import {
+  Alert,
   Box,
+  Button,
   Divider,
   IconButton,
-  Input,
   InputBase,
+  Snackbar,
   Stack,
-  TextField,
   Typography,
   useTheme,
 } from "@mui/material";
-import ParallaxText from "../app/globalComponents/ParallelText";
-import { colors } from "../app/assetData";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faDiscord,
@@ -19,6 +18,7 @@ import {
   faXTwitter,
 } from "@fortawesome/free-brands-svg-icons";
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
+import { useState } from "react";
 
 const socialAccounts = [
   {
@@ -50,6 +50,15 @@ const socialAccounts = [
 
 export default function Footer() {
   const theme = useTheme();
+  const [email, setEmail] = useState("");
+  const [note, setNote] = useState("");
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+
+  function handleSubmit() {
+    setEmail("");
+    setNote("");
+    setSnackbarOpen(true);
+  }
 
   return (
     <footer id="footer">
@@ -63,6 +72,7 @@ export default function Footer() {
           pt: 5,
           flexDirection: "column",
           px: { xs: 2, lg: 10 },
+          position: "relative",
         }}
       >
         <Typography sx={{ fontSize: "2em" }}>Contact Me</Typography>
@@ -78,6 +88,8 @@ export default function Footer() {
             <Typography>Let me contact you.</Typography>
             <InputBase
               placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               sx={{
                 bgcolor: theme.palette.mode === "light" ? "#454545" : "#ACABA7",
                 borderRadius: "12px",
@@ -92,9 +104,11 @@ export default function Footer() {
               }}
             />
             <InputBase
-              placeholder="Notes"
+              placeholder="Note"
+              value={note}
               multiline
               rows={4}
+              onChange={(e) => setNote(e.target.value)}
               sx={{
                 borderRadius: "12px",
                 bgcolor: theme.palette.mode === "light" ? "#454545" : "#ACABA7",
@@ -108,8 +122,36 @@ export default function Footer() {
                 },
               }}
             />
+            <Button
+              variant="contained"
+              disableRipple
+              sx={{
+                width: "fit-content",
+                bgcolor: "secondary.main",
+                color: "primary.main",
+                borderRadius: "12px",
+              }}
+              onClick={handleSubmit}
+            >
+              Submit
+            </Button>
+            <Snackbar
+              open={snackbarOpen}
+              onClose={() => setSnackbarOpen(false)}
+              message="I love snacks"
+              autoHideDuration={2000}
+            >
+              <Alert
+                onClose={() => setSnackbarOpen(false)}
+                severity="error"
+                variant="filled"
+                sx={{ width: "100%" }}
+              >
+                Please enter a valid email!
+              </Alert>
+            </Snackbar>
           </Stack>
-          <Stack direction={"column"} gap={3}>
+          <Stack gap={3}>
             <Typography>Reach me out from these:</Typography>
             <Stack direction={"row"} sx={{ fontSize: "2em", gap: 2, ml: -1 }}>
               {socialAccounts.map((item, key) => (
