@@ -1,11 +1,11 @@
 import { Box, Stack } from "@mui/material";
 import { TypeAnimation } from "react-type-animation";
-import React from "react";
 import HeroIcon from "./HeroIcon";
+import { useState } from "react";
 
 export default function Hero() {
-  const [isIntroRendered, setIntroRendered] = React.useState(false);
-  const [isNameRendered, setNameRendered] = React.useState(false);
+  const [isIntroRendered, setIntroRendered] = useState(false);
+  const [isNameRendered, setNameRendered] = useState(false);
 
   return (
     <section id="hero">
@@ -32,7 +32,7 @@ export default function Hero() {
             className="custom-type-animation-cursor"
             cursor={false}
             sequence={[
-              "Hello World!",
+              "Hey there!",
               (el) => el?.classList.remove("custom-type-animation-cursor"),
               () => setIntroRendered(true),
             ]}
@@ -54,7 +54,7 @@ export default function Hero() {
                 "You can call me Martin.",
                 (el) => el?.classList.remove("custom-type-animation-cursor"),
                 () => setNameRendered(true),
-                10000,
+                6000,
                 (el) => el?.classList.add("custom-type-animation-cursor"),
               ]}
               wrapper="span"
@@ -72,11 +72,11 @@ export default function Hero() {
               cursor={false}
               sequence={[
                 10000,
-                "I build responsive",
-                1000,
-                "I build attractive",
-                1000,
-                `I build responsive and attractive websites.\nI'm constantly learning and integrating new knowledges into my career skills.`,
+                "A web developer who turns ideas into engaging online experiences. Let my code do the talking - let's build something awesome!",
+                // 1000,
+                // "I build attractive",
+                // 1000,
+                // `I build responsive and attractive websites.\nI am consistently engaged in ongoing learning and actively incorporating new knowledge into the development of my professional skills.`,
                 (el) => el?.classList.remove("custom-type-animation-cursor"),
               ]}
               wrapper="span"
