@@ -18,7 +18,10 @@ import {
   faXTwitter,
 } from "@fortawesome/free-brands-svg-icons";
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { addDoc, collection } from "firebase/firestore";
+import { firestoreDatabase } from "../app/utils/firebase";
+import { sendEmail } from "../app/utils/emailJs";
 
 const socialAccounts = [
   {
@@ -53,11 +56,24 @@ export default function Footer() {
   const [email, setEmail] = useState("");
   const [note, setNote] = useState("");
   const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const formRef = useRef<HTMLFormElement>(null);
 
-  function handleSubmit() {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
     setEmail("");
     setNote("");
-    setSnackbarOpen(true);
+    addDoc(collection(firestoreDatabase, "subscribers"), {
+      email,
+      note,
+    });
+    sendEmail(
+      {
+        mailTo: email,
+        subscriberName: email.split("@")[0].toUpperCase(),
+        subscriberNote: note == "" ? "You didn't leave any note." : note,
+      },
+      setSnackbarOpen(true)
+    );
   }
 
   return (
@@ -84,80 +100,90 @@ export default function Footer() {
           alignItems={{ xs: "start", sm: "end" }}
           gap={7}
         >
-          <Stack direction={"column"} gap={2} width={{ xs: "100%", sm: "50%" }}>
-            <Typography>Let me contact you.</Typography>
-            <InputBase
-              placeholder="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              sx={{
-                bgcolor: theme.palette.mode === "light" ? "#454545" : "#ACABA7",
-                borderRadius: "12px",
-                fontSize: "0.875em",
-                color: "secondary.main",
-                padding: 1.1,
-                "&.Mui-focused": {
-                  border: `solid 2px`,
-                  borderRadius: "12px",
-                  outline: 0,
-                },
-              }}
-            />
-            <InputBase
-              placeholder="Note"
-              value={note}
-              multiline
-              rows={4}
-              onChange={(e) => setNote(e.target.value)}
-              sx={{
-                borderRadius: "12px",
-                bgcolor: theme.palette.mode === "light" ? "#454545" : "#ACABA7",
-                fontSize: "0.875em",
-                color: "secondary.main",
-                padding: 1.1,
-                "&.Mui-focused": {
-                  border: `solid 2px`,
-                  borderRadius: "12px",
-                  outline: 0,
-                },
-              }}
-            />
-            <Button
-              variant="contained"
-              disableRipple
-              sx={{
-                width: "fit-content",
-                bgcolor: "secondary.main",
-                color: "primary.main",
-                borderRadius: "12px",
-              }}
-              onClick={handleSubmit}
+          <form ref={formRef} onSubmit={handleSubmit} style={{ width: "100%" }}>
+            <Stack
+              direction={"column"}
+              gap={2}
+              width={{ xs: "100%", sm: "50%" }}
             >
-              Submit
-            </Button>
-            <Snackbar
-              open={snackbarOpen}
-              onClose={() => setSnackbarOpen(false)}
-              message="I love snacks"
-              autoHideDuration={2000}
-            >
-              <Alert
-                onClose={() => setSnackbarOpen(false)}
-                severity="error"
-                variant="filled"
-                sx={{ width: "100%" }}
+              <Typography>Let me contact you.</Typography>
+              <InputBase
+                required
+                type="email"
+                placeholder="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                sx={{
+                  bgcolor:
+                    theme.palette.mode === "light" ? "#454545" : "#ACABA7",
+                  borderRadius: "12px",
+                  fontSize: "0.875em",
+                  color: "secondary.main",
+                  padding: 1.1,
+                  "&.Mui-focused": {
+                    border: `solid 2px`,
+                    borderRadius: "12px",
+                    outline: 0,
+                  },
+                }}
+              />
+              <InputBase
+                placeholder="Note"
+                value={note}
+                multiline
+                rows={4}
+                onChange={(e) => setNote(e.target.value)}
+                sx={{
+                  borderRadius: "12px",
+                  bgcolor:
+                    theme.palette.mode === "light" ? "#454545" : "#ACABA7",
+                  fontSize: "0.875em",
+                  color: "secondary.main",
+                  padding: 1.1,
+                  "&.Mui-focused": {
+                    border: `solid 2px`,
+                    borderRadius: "12px",
+                    outline: 0,
+                  },
+                }}
+              />
+              <Button
+                type="submit"
+                variant="contained"
+                disableRipple
+                sx={{
+                  width: "fit-content",
+                  bgcolor: "secondary.main",
+                  color: "primary.main",
+                  borderRadius: "12px",
+                }}
               >
-                Please enter a valid email!
-              </Alert>
-            </Snackbar>
-          </Stack>
+                Submit
+              </Button>
+              <Snackbar
+                open={snackbarOpen}
+                onClose={() => setSnackbarOpen(false)}
+                message="I love snacks"
+                autoHideDuration={2000}
+              >
+                <Alert
+                  onClose={() => setSnackbarOpen(false)}
+                  severity="error"
+                  variant="filled"
+                  sx={{ width: "100%" }}
+                >
+                  Please enter a valid email!
+                </Alert>
+              </Snackbar>
+            </Stack>
+          </form>
           <Stack gap={3}>
             <Typography>Reach me out from these:</Typography>
             <Stack direction={"row"} sx={{ fontSize: "2em", gap: 2, ml: -1 }}>
-              {socialAccounts.map((item, key) => (
-                <a href={item.link}>
+              {socialAccounts.map((item, index) => (
+                <a href={item.link} key={index} target="_blank">
                   <IconButton sx={{ color: "secondary.main" }}>
-                    <FontAwesomeIcon key={key} icon={item.icon} bounce />
+                    <FontAwesomeIcon icon={item.icon} bounce />
                   </IconButton>
                 </a>
               ))}
