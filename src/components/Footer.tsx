@@ -22,6 +22,8 @@ import { useRef, useState } from "react";
 import { addDoc, collection } from "firebase/firestore";
 import { firestoreDatabase } from "../app/utils/firebase";
 import { sendEmail } from "../app/utils/emailJs";
+import ParallaxText from "../app/globalComponents/ParallelText";
+import { colors } from "../app/assetData";
 
 const socialAccounts = [
   {
@@ -190,8 +192,8 @@ export default function Footer() {
             </Stack>
           </Stack>
         </Stack>
-        <Divider sx={{ width: "100%", bgcolor: "secondary.main" }} />
-        {/* <Box sx={{ my: 1 }}>
+        {/* <Divider sx={{ width: "100%", bgcolor: "secondary.main" }} />
+        <Box sx={{ my: 1 }}>
           <ParallaxText baseVelocity={5} color={colors.red}>
             MYANMAR IS NOT IN PEACE!
           </ParallaxText>
